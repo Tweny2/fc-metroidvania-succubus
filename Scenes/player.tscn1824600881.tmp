@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://dhaqp1pahr04d"]
+
+[ext_resource type="Script" uid="uid://dohytanetfrps" path="res://Scripts/Player/Player.gd" id="1_v0iea"]
+[ext_resource type="Script" uid="uid://ud43s21qe1fb" path="res://Scripts/Player/states/idle.gd" id="2_cvnsp"]
+[ext_resource type="Script" uid="uid://bw617jwqyrs3k" path="res://Scripts/Player/states/run.gd" id="3_6t5aa"]
+
+[sub_resource type="Gradient" id="Gradient_gjpho"]
+offsets = PackedFloat32Array(0.033333335, 0.32, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.5386167, 0.050086036, 0.20126674, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_p70al"]
+gradient = SubResource("Gradient_gjpho")
+width = 32
+height = 32
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v0iea"]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_v0iea")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+texture = SubResource("GradientTexture2D_p70al")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15)
+shape = SubResource("CapsuleShape2D_v0iea")
+debug_color = Color(0.7111936, 0.51222914, 0.14392224, 0.41960785)
+
+[node name="States" type="Node" parent="."]
+
+[node name="Idle" type="Node" parent="States"]
+script = ExtResource("2_cvnsp")
+
+[node name="Run" type="Node" parent="States"]
+script = ExtResource("3_6t5aa")

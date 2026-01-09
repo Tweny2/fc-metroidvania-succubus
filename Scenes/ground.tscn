@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://4no8lkcc7y62"]
 
 [sub_resource type="Gradient" id="Gradient_qvte6"]
-offsets = PackedFloat32Array(0.99333334, 1)
-colors = PackedColorArray(0.33863333, 0.10305169, 0.075600944, 1, 0, 1.8590437, 2.6126626, 1)
+offsets = PackedFloat32Array(0.86, 1)
+colors = PackedColorArray(0.0044277906, 0.0043748966, 0.004368733, 1, 0, 1.8590437, 2.6126626, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_688p1"]
 gradient = SubResource("Gradient_qvte6")
@@ -21,9 +21,36 @@ texture = SubResource("GradientTexture2D_688p1")
 metadata/_edit_group_ = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D"]
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/StaticBody2D"]
 shape = SubResource("RectangleShape2D_oltiy")
+
+[node name="OneWayPlatform" type="Sprite2D" parent="."]
+position = Vector2(278, 136.75)
+scale = Vector2(2.796875, 0.078125045)
+texture = SubResource("GradientTexture2D_688p1")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="OneWayPlatform"]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OneWayPlatform/StaticBody2D"]
+shape = SubResource("RectangleShape2D_oltiy")
+one_way_collision = true
+
+[node name="OneWayPlatform2" type="Sprite2D" parent="."]
+position = Vector2(470.00003, 116.75001)
+scale = Vector2(2.796875, 2.3906252)
+texture = SubResource("GradientTexture2D_688p1")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="OneWayPlatform2"]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OneWayPlatform2/StaticBody2D"]
+shape = SubResource("RectangleShape2D_oltiy")
+one_way_collision = true
 
 [node name="Sprite2D5" type="Sprite2D" parent="."]
 position = Vector2(403.99997, 219)
@@ -32,6 +59,7 @@ texture = SubResource("GradientTexture2D_688p1")
 metadata/_edit_group_ = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D5"]
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D5/StaticBody2D"]
 shape = SubResource("RectangleShape2D_oltiy")

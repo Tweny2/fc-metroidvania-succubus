@@ -2,8 +2,13 @@ class_name Player extends CharacterBody2D
 
 const DEBUG_JUMP_INDICATOR = preload("uid://c2iigg6p4pfxu")
 
+#region /// Onready Variables
+@onready var sprite: Sprite2D = $Sprite2D
+@onready var collision_stand: CollisionShape2D = $CollisionStand
+@onready var collision_crouch: CollisionShape2D = $CollisionCrouch
+@onready var one_way_platform_ray_cast: RayCast2D = $OneWayPlatformRayCast
 
-
+#endregion
 
 #region /// Export Variables
 @export var move_speed :float = 150
@@ -23,7 +28,7 @@ var previous_state : PlayerState:
 #region /// Standard Variables
 var direction : Vector2 = Vector2.ZERO
 var gravity : float = 980 # 重力加速度
-var mass : float = 8
+var mass : float = 1  # 质量
 #endregion
 
 
@@ -37,7 +42,7 @@ func _process(delta: float) -> void:
 	
 func _physics_process(delta: float) -> void:
 	#velocity.
-	velocity.y += gravity * delta 
+	velocity.y += gravity * mass * delta 
 	
 	move_and_slide()
 	

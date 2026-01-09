@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://dhaqp1pahr04d"]
+[gd_scene load_steps=11 format=3 uid="uid://dhaqp1pahr04d"]
 
 [ext_resource type="Script" uid="uid://dohytanetfrps" path="res://Scripts/Player/Player.gd" id="1_v0iea"]
 [ext_resource type="Script" uid="uid://ud43s21qe1fb" path="res://Scripts/Player/states/idle.gd" id="2_cvnsp"]
 [ext_resource type="Script" uid="uid://bw617jwqyrs3k" path="res://Scripts/Player/states/run.gd" id="3_6t5aa"]
 [ext_resource type="Script" uid="uid://bxwb67yng10fy" path="res://Scripts/Player/states/jump.gd" id="4_fkybt"]
 [ext_resource type="Script" uid="uid://1pj8us4e1l5b" path="res://Scripts/Player/states/fall.gd" id="5_x3wgy"]
+[ext_resource type="Script" uid="uid://cng7q161f2pf0" path="res://Scripts/Player/states/crouch.gd" id="6_x3wgy"]
 
 [sub_resource type="Gradient" id="Gradient_gjpho"]
 offsets = PackedFloat32Array(0.02, 1)
@@ -17,7 +18,12 @@ height = 32
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v0iea"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3wgy"]
+size = Vector2(14, 12)
+
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 3
 script = ExtResource("1_v0iea")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -25,9 +31,17 @@ position = Vector2(-2.3841858e-07, -15)
 scale = Vector2(0.625, 0.9375)
 texture = SubResource("GradientTexture2D_p70al")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionStand" type="CollisionShape2D" parent="."]
+modulate = Color(1, 0, 0, 1)
 position = Vector2(0, -15)
 shape = SubResource("CapsuleShape2D_v0iea")
+debug_color = Color(0.7111936, 0.51222914, 0.14392224, 0.41960785)
+
+[node name="CollisionCrouch" type="CollisionShape2D" parent="."]
+modulate = Color(0.050980393, 0.14509805, 0.8784314, 1)
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_x3wgy")
+disabled = true
 debug_color = Color(0.7111936, 0.51222914, 0.14392224, 0.41960785)
 
 [node name="States" type="Node" parent="."]
@@ -47,7 +61,10 @@ script = ExtResource("4_fkybt")
 [node name="Fall" type="Node" parent="States"]
 unique_name_in_owner = true
 script = ExtResource("5_x3wgy")
-coyote_time = 0.125
+
+[node name="Crouch" type="Node" parent="States"]
+unique_name_in_owner = true
+script = ExtResource("6_x3wgy")
 
 [node name="Label" type="Label" parent="."]
 offset_left = -26.0
@@ -57,3 +74,7 @@ offset_bottom = -27.0
 theme_override_font_sizes/font_size = 12
 text = "Erza"
 horizontal_alignment = 1
+
+[node name="OneWayPlatformRayCast" type="RayCast2D" parent="."]
+target_position = Vector2(0, 10)
+collision_mask = 2

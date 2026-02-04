@@ -6,13 +6,15 @@ const DEBUG_JUMP_INDICATOR = preload("uid://c2iigg6p4pfxu")
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_stand: CollisionShape2D = $CollisionStand
 @onready var collision_crouch: CollisionShape2D = $CollisionCrouch
-@onready var one_way_platform_ray_cast: RayCast2D = $OneWayPlatformRayCast
+@onready var one_way_platform_shape_cast: ShapeCast2D = $OneWayPlatformShapeCast
+
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 #endregion
 
 #region /// Export Variables
 @export var move_speed :float = 150
-
+@export var max_fall_velocity : float = 600
 #endregion
 
 
@@ -27,22 +29,22 @@ var previous_state : PlayerState:
 
 #region /// Standard Variables
 var direction : Vector2 = Vector2.ZERO
-var gravity : float = 980 # 重力加速度
+var gravity : float = 980 # 重力加速度= 980px/s2
 var mass : float = 1  # 质量
 #endregion
 
 
 func _ready() -> void:
 	initialize_states()
-	
+	Engine.time_scale = 0.5
 func _process(delta: float) -> void:
 	
 	update_direction()
 	change_state(current_state.process(delta))
 	
 func _physics_process(delta: float) -> void:
-	#velocity.
-	velocity.y += gravity * mass * delta 
+	velocity.y += gravity * mass * delta  # 重力= gravity * mass
+	velocity.y = clamp(velocity.y,-1000, max_fall_velocity)
 	
 	move_and_slide()
 	
@@ -55,7 +57,7 @@ func initialize_states() -> void:
 	
 	states = []
 	
-	for c in $States.get_children():
+	for c in $StateMachine.get_children():
 		if c is PlayerState:
 			states.append(c)
 			c.player = self
@@ -82,14 +84,17 @@ func change_state(new_state : PlayerState) -> void :
 	$Label.text = current_state.name
 
 func update_direction():
-	var _pre_direction : Vector2 = direction
+	var pre_direction : Vector2 = direction
 	
 	var x_axis = Input.get_axis("ui_left","ui_right")
 	var y_axis = Input.get_axis("ui_up","ui_down")
 	
 	direction = Vector2(x_axis, y_axis)
-	
-	pass
+	if pre_direction.x != direction.x:
+		if direction.x < 0:
+			sprite.flip_h = true
+		elif direction.x > 0:
+			sprite.flip_h = false
 
 func add_debug_indicator(color : Color = Color.RED):
 	var d : Node2D = DEBUG_JUMP_INDICATOR.instantiate()

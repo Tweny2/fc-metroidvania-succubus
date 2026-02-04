@@ -76,7 +76,7 @@ metadata/_edit_group_ = true
 shape = SubResource("RectangleShape2D_oltiy")
 
 [node name="Sprite2D4" type="Sprite2D" parent="."]
-position = Vector2(204.99998, 255)
+position = Vector2(206.00002, 256)
 rotation = 0.5445986
 scale = Vector2(6.808593, 1.8750002)
 texture = SubResource("GradientTexture2D_688p1")

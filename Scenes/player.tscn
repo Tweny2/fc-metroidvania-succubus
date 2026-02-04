@@ -1,80 +1,175 @@
-[gd_scene load_steps=11 format=3 uid="uid://dhaqp1pahr04d"]
+[gd_scene format=3 uid="uid://dhaqp1pahr04d"]
 
 [ext_resource type="Script" uid="uid://dohytanetfrps" path="res://Scripts/Player/Player.gd" id="1_v0iea"]
+[ext_resource type="Texture2D" uid="uid://b138nx8n7dhcr" path="res://Assets/Sprites/hero.png" id="2_3smsa"]
 [ext_resource type="Script" uid="uid://ud43s21qe1fb" path="res://Scripts/Player/states/idle.gd" id="2_cvnsp"]
 [ext_resource type="Script" uid="uid://bw617jwqyrs3k" path="res://Scripts/Player/states/run.gd" id="3_6t5aa"]
 [ext_resource type="Script" uid="uid://bxwb67yng10fy" path="res://Scripts/Player/states/jump.gd" id="4_fkybt"]
 [ext_resource type="Script" uid="uid://1pj8us4e1l5b" path="res://Scripts/Player/states/fall.gd" id="5_x3wgy"]
 [ext_resource type="Script" uid="uid://cng7q161f2pf0" path="res://Scripts/Player/states/crouch.gd" id="6_x3wgy"]
 
-[sub_resource type="Gradient" id="Gradient_gjpho"]
-offsets = PackedFloat32Array(0.02, 1)
-colors = PackedColorArray(1, 0.9490196, 0.20392157, 1, 0.3529412, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_p70al"]
-gradient = SubResource("Gradient_gjpho")
-width = 32
-height = 32
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v0iea"]
+radius = 8.0
+height = 46.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3wgy"]
-size = Vector2(14, 12)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3smsa"]
+height = 20.0
 
-[node name="Player" type="CharacterBody2D"]
+[sub_resource type="Animation" id="Animation_8erm5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_f1ek2"]
+resource_name = "crouch"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [20, 21, 22, 23]
+}
+
+[sub_resource type="Animation" id="Animation_3smsa"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_tx1dd"]
+resource_name = "jump"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.7, 0.79999995),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [24, 25, 26, 27, 28]
+}
+
+[sub_resource type="Animation" id="Animation_pu2lt"]
+resource_name = "run"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2025056, 0.3, 0.4, 0.5, 0.6, 0.69808894),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [14, 15, 16, 17, 18, 19, 12, 13]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f1ek2"]
+_data = {
+&"RESET": SubResource("Animation_8erm5"),
+&"crouch": SubResource("Animation_f1ek2"),
+&"idle": SubResource("Animation_3smsa"),
+&"jump": SubResource("Animation_tx1dd"),
+&"run": SubResource("Animation_pu2lt")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3smsa"]
+size = Vector2(16, 3)
+
+[node name="Player" type="CharacterBody2D" unique_id=919453431]
 collision_layer = 0
 collision_mask = 3
+floor_constant_speed = true
+floor_snap_length = 1.5
 script = ExtResource("1_v0iea")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-2.3841858e-07, -15)
-scale = Vector2(0.625, 0.9375)
-texture = SubResource("GradientTexture2D_p70al")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=839235299]
+position = Vector2(0, -39)
+texture = ExtResource("2_3smsa")
+hframes = 16
+vframes = 4
 
-[node name="CollisionStand" type="CollisionShape2D" parent="."]
-modulate = Color(1, 0, 0, 1)
-position = Vector2(0, -15)
+[node name="CollisionStand" type="CollisionShape2D" parent="." unique_id=784295974]
+position = Vector2(0, -23)
 shape = SubResource("CapsuleShape2D_v0iea")
 debug_color = Color(0.7111936, 0.51222914, 0.14392224, 0.41960785)
 
-[node name="CollisionCrouch" type="CollisionShape2D" parent="."]
-modulate = Color(0.050980393, 0.14509805, 0.8784314, 1)
-position = Vector2(0, -6)
-shape = SubResource("RectangleShape2D_x3wgy")
+[node name="CollisionCrouch" type="CollisionShape2D" parent="." unique_id=1667530405]
+position = Vector2(0, -10)
+shape = SubResource("CapsuleShape2D_3smsa")
 disabled = true
 debug_color = Color(0.7111936, 0.51222914, 0.14392224, 0.41960785)
 
-[node name="States" type="Node" parent="."]
+[node name="StateMachine" type="Node" parent="." unique_id=1796333558]
 
-[node name="Idle" type="Node" parent="States"]
+[node name="Idle" type="Node" parent="StateMachine" unique_id=1412934132]
 unique_name_in_owner = true
 script = ExtResource("2_cvnsp")
 
-[node name="Run" type="Node" parent="States"]
+[node name="Run" type="Node" parent="StateMachine" unique_id=2110001450]
 unique_name_in_owner = true
 script = ExtResource("3_6t5aa")
 
-[node name="Jump" type="Node" parent="States"]
+[node name="Jump" type="Node" parent="StateMachine" unique_id=1929931776]
 unique_name_in_owner = true
 script = ExtResource("4_fkybt")
 
-[node name="Fall" type="Node" parent="States"]
+[node name="Fall" type="Node" parent="StateMachine" unique_id=1707480037]
 unique_name_in_owner = true
 script = ExtResource("5_x3wgy")
 
-[node name="Crouch" type="Node" parent="States"]
+[node name="Crouch" type="Node" parent="StateMachine" unique_id=301567255]
 unique_name_in_owner = true
 script = ExtResource("6_x3wgy")
 
-[node name="Label" type="Label" parent="."]
-offset_left = -26.0
-offset_top = -50.0
-offset_right = 28.0
-offset_bottom = -27.0
+[node name="Label" type="Label" parent="." unique_id=1052022436]
+offset_left = -27.0
+offset_top = -71.0
+offset_right = 27.0
+offset_bottom = -48.0
 theme_override_font_sizes/font_size = 12
 text = "Erza"
 horizontal_alignment = 1
 
-[node name="OneWayPlatformRayCast" type="RayCast2D" parent="."]
-target_position = Vector2(0, 10)
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1919726517]
+libraries/ = SubResource("AnimationLibrary_f1ek2")
+
+[node name="OneWayPlatformShapeCast" type="ShapeCast2D" parent="." unique_id=2060623040]
+position = Vector2(0, -3)
+enabled = false
+shape = SubResource("RectangleShape2D_3smsa")
+target_position = Vector2(0, 6)
+max_results = 12
 collision_mask = 2

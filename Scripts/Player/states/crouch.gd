@@ -7,20 +7,22 @@ func init() -> void:
 	print("init!", name)
 
 func enter():
+	player.animation_player.play("crouch")
 	player.collision_stand.disabled = true
 	player.collision_crouch.disabled = false
-	player.sprite.scale.y = 0.5
-	player.sprite.position.y = -8
+	#player.sprite.scale.y = 0.5
+	#player.sprite.position.y = -8
 	
 func exit():
 	player.collision_stand.disabled = false
 	player.collision_crouch.disabled = true
-	player.sprite.scale.y = 0.938
-	player.sprite.position.y = -15
+	#player.sprite.scale.y = 0.938
+	#player.sprite.position.y = -15
 	
 func handle_input(event:InputEvent) -> PlayerState:
 	if event.is_action_pressed("ui_accept"):
-		if player.one_way_platform_ray_cast.is_colliding() == true:
+		player.one_way_platform_shape_cast.force_shapecast_update()
+		if player.one_way_platform_shape_cast.is_colliding() == true:
 			player.position.y += 4
 			return fall
 		return jump

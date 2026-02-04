@@ -15,6 +15,7 @@ var next_state : PlayerState
 
 
 
+
 #endregion
 
 func init() -> void:
@@ -25,7 +26,7 @@ func enter():
 func exit():
 	pass 
 	
-func handle_input(event:InputEvent) -> PlayerState:
+func handle_input(_event:InputEvent) -> PlayerState:
 	
 	return next_state 
 

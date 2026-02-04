@@ -1,26 +1,31 @@
-[gd_scene load_steps=6 format=3 uid="uid://bwr2mgojvoltb"]
+[gd_scene format=3 uid="uid://bwr2mgojvoltb"]
 
 [ext_resource type="Script" uid="uid://cgss6g800h3bx" path="res://Scripts/GameManager.gd" id="1_5cjrv"]
 [ext_resource type="Texture2D" uid="uid://e6mavndjm6yl" path="res://Assets/Er_idle.png" id="2_j0p05"]
 [ext_resource type="Texture2D" uid="uid://c2moidsmu866q" path="res://icon.svg" id="3_5nsto"]
 [ext_resource type="PackedScene" uid="uid://dhaqp1pahr04d" path="res://Scenes/player.tscn" id="4_gjpho"]
 [ext_resource type="PackedScene" uid="uid://4no8lkcc7y62" path="res://Scenes/ground.tscn" id="5_p70al"]
+[ext_resource type="AudioStream" uid="uid://caxf8ug25k3tp" path="res://Assets/Audio/舌尖上的基米.mp3" id="6_45d1s"]
 
-[node name="World" type="Node2D"]
+[node name="World" type="Node2D" unique_id=1551401857]
 script = ExtResource("1_5cjrv")
 
-[node name="ErIdle" type="Sprite2D" parent="."]
+[node name="ErIdle" type="Sprite2D" parent="." unique_id=724549949]
 position = Vector2(209, 48)
 texture = ExtResource("2_j0p05")
 
-[node name="Icon" type="Sprite2D" parent="."]
+[node name="Icon" type="Sprite2D" parent="." unique_id=1149510899]
 position = Vector2(334, 135)
 texture = ExtResource("3_5nsto")
 
-[node name="Player" parent="." instance=ExtResource("4_gjpho")]
+[node name="Player" parent="." unique_id=1773951870 instance=ExtResource("4_gjpho")]
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1485034242]
 zoom = Vector2(1.01, 1.01)
 
-[node name="Ground" parent="." instance=ExtResource("5_p70al")]
+[node name="Ground" parent="." unique_id=768341116 instance=ExtResource("5_p70al")]
 position = Vector2(-258, -155)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1579950571]
+stream = ExtResource("6_45d1s")
+parameters/looping = true
